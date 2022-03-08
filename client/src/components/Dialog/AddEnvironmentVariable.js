@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -6,35 +6,30 @@ import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 
 export default function FormDialog({
-  showDialogForEv,
-  setShowDialogForEv,
-  currentEv,
-  update,
+  showAddDialogForEv,
+  setShowAddDialogForEv,
   setUpdate,
+  update,
 }) {
   const [data, setData] = useState("");
   const handleClose = () => {
-    setShowDialogForEv(false);
+    setShowAddDialogForEv(false);
   };
   const UpdateRuntimeParameter = async (e) => {
     if (e.key === "Enter") {
-      await axios.put("http://localhost:9001/screen2/environment_variable", {
-        newdata: data,
-        olddata: currentEv,
+      await axios.post("http://localhost:9001/screen2/environment_variable", {
+        entity: data,
       });
-      setShowDialogForEv(false);
+
+      setShowAddDialogForEv(false);
       setUpdate(!update);
     }
   };
 
-  useEffect(() => {
-    setData(currentEv);
-  }, [currentEv]);
-
   return (
     <div>
-      <Dialog open={showDialogForEv} onClose={handleClose}>
-        <DialogTitle>Update Environment Variable</DialogTitle>
+      <Dialog open={showAddDialogForEv} onClose={handleClose}>
+        <DialogTitle>Add Environment Variable</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus

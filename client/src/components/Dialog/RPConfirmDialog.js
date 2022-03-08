@@ -7,12 +7,22 @@ import {
   TextField,
   DialogActions,
 } from "@mui/material";
-
+import axios from "axios";
 export default function FormDialog({
   removeDialogForRp,
   setRemoveDialogForRp,
   currentRp,
+  update,
+  setUpdate,
 }) {
+  const deleteEntity = async () => {
+    await axios.delete("http://localhost:9001/screen2/runtime_parameter", {
+      data: { entity: currentRp },
+    });
+    setUpdate(!update);
+    setRemoveDialogForRp(false);
+  };
+
   const handleClose = () => {
     setRemoveDialogForRp(false);
   };
@@ -20,7 +30,7 @@ export default function FormDialog({
   return (
     <div>
       <Dialog open={removeDialogForRp} onClose={handleClose}>
-        <DialogTitle>Delete Environment variable</DialogTitle>
+        <DialogTitle>Delete runtime parameter</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -34,7 +44,7 @@ export default function FormDialog({
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Delete</Button>
+          <Button onClick={() => deleteEntity()}>Delete</Button>
         </DialogActions>
       </Dialog>
     </div>

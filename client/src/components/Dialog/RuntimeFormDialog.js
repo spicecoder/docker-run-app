@@ -1,23 +1,36 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import axios from "axios";
 
 export default function FormDialog({
   showDialogForRp,
   setShowDialogForRp,
   currentRp,
-  setCurrentRp,
+  setUpdate,
+  update,
 }) {
+  const [data, setData] = useState("");
   const handleClose = () => {
     setShowDialogForRp(false);
   };
-  const UpdateRuntimeParameter = (e) => {
+  const UpdateRuntimeParameter = async (e) => {
     if (e.key === "Enter") {
-      console.log(currentRp);
+      await axios.put("http://localhost:9001/screen2/runtime_parameter", {
+        newdata: data,
+        olddata: currentRp,
+      });
+      setShowDialogForRp(false);
+      setUpdate(!update);
     }
   };
+
+  useEffect(() => {
+    setData(currentRp);
+  }, [currentRp]);
+
   return (
     <div>
       <Dialog open={showDialogForRp} onClose={handleClose}>
@@ -30,8 +43,8 @@ export default function FormDialog({
             type="email"
             fullWidth
             variant="standard"
-            value={currentRp}
-            onChange={(e) => setCurrentRp(e.target.value)}
+            value={data}
+            onChange={(e) => setData(e.target.value)}
             onKeyDown={UpdateRuntimeParameter}
           />
         </DialogContent>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -6,40 +6,34 @@ import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 
 export default function FormDialog({
-  showDialogForEv,
-  setShowDialogForEv,
-  currentEv,
-  update,
+  showAddDialogForRp,
+  setShowAddDialogForRp,
   setUpdate,
+  update,
 }) {
   const [data, setData] = useState("");
   const handleClose = () => {
-    setShowDialogForEv(false);
+    setShowAddDialogForRp(false);
   };
   const UpdateRuntimeParameter = async (e) => {
     if (e.key === "Enter") {
-      await axios.put("http://localhost:9001/screen2/environment_variable", {
-        newdata: data,
-        olddata: currentEv,
+      await axios.post("http://localhost:9001/screen2/runtime_parameter", {
+        entity: data,
       });
-      setShowDialogForEv(false);
+      setShowAddDialogForRp(false);
       setUpdate(!update);
     }
   };
 
-  useEffect(() => {
-    setData(currentEv);
-  }, [currentEv]);
-
   return (
     <div>
-      <Dialog open={showDialogForEv} onClose={handleClose}>
-        <DialogTitle>Update Environment Variable</DialogTitle>
+      <Dialog open={showAddDialogForRp} onClose={handleClose}>
+        <DialogTitle>Add runtime parameters</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="Environment Variable"
+            label="runtime parameters"
             type="email"
             fullWidth
             variant="standard"

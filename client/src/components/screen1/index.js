@@ -9,8 +9,7 @@ const Screen1 = () => {
     const res = await axios.post("http://localhost:9001/screen1", {
       data: data,
     });
-    console.log(res);
-    setResult(res);
+    setResult(res.data);
   };
 
   return (
