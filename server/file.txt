@@ -1,1 +1,0 @@
-[{"domain":"Docker_image","flow":"Runtime parameters","attentionentities":[{"Cocconut":"coconut drink"},{"Grape":""},{"Pineapple":"lorem ipsum"}]},{"domain":"Docker_image","flow":"Environment Variables","attentionentities":[{"Tiger":"jungle king"},{"Deer":""},{"Boar":""},{"Monkey":""}]}]

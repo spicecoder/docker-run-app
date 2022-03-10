@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
     context.flow = "docker_file";
     context.context_entity = [{ "docker file content": data }];
 
-    fs.writeFileSync("file.txt", JSON.stringify(context), (err) => {
+    fs.writeFileSync("dfc_db.txt", JSON.stringify(context), (err) => {
       if (err) console.log(err);
     });
 
