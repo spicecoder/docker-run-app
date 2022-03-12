@@ -15,7 +15,6 @@ const Screen2 = () => {
     for (let i = 0; i < event.target.files.length; i++) {
       data.push(event.target.files[i].name);
     }
-
     setFiles(data);
   }
 
