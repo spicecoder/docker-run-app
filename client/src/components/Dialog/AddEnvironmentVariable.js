@@ -3,13 +3,11 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import axios from "axios";
 
 export default function FormDialog({
   showAddDialogForEv,
   setShowAddDialogForEv,
-  setUpdate,
-  update,
+  dataStorage,
 }) {
   const [data, setData] = useState("");
   const handleClose = () => {
@@ -17,12 +15,11 @@ export default function FormDialog({
   };
   const UpdateRuntimeParameter = async (e) => {
     if (e.key === "Enter") {
-      await axios.post("http://localhost:9001/screen2/environment_variable", {
-        entity: data,
-      });
-
+      const obj = {};
+      obj[`${data}`] = "";
+      dataStorage.DS[0].d[1].FS[2].f[1].ES.push(obj);
       setShowAddDialogForEv(false);
-      setUpdate(!update);
+      setData("");
     }
   };
 

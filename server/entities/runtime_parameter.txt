@@ -1,1 +1,0 @@
-[{"context_entity":"Cocconut1","value":"coconut drink"},{"context_entity":"Pineapple","value":"lorem ipsum"},{"context_entity":"new data","value":"lorem ipsum"}]

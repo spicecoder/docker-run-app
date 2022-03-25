@@ -3,28 +3,29 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import axios from "axios";
+import { DialogActions, Button } from "@mui/material";
 
 export default function FormDialog({
   showDialogForEv,
   setShowDialogForEv,
   currentEv,
-  update,
-  setUpdate,
+  dataStorage,
 }) {
   const [data, setData] = useState("");
   const handleClose = () => {
     setShowDialogForEv(false);
   };
-  const UpdateRuntimeParameter = async (e) => {
-    if (e.key === "Enter") {
-      await axios.put("http://localhost:9001/screen2/environment_variable", {
-        newdata: data,
-        olddata: currentEv,
-      });
-      setShowDialogForEv(false);
-      setUpdate(!update);
+  const UpdateEnvironmentVariable = () => {
+    for (let i in dataStorage.DS[0].d[1].FS[2].f[1].ES) {
+      var ev = dataStorage.DS[0].d[1].FS[2].f[1].ES[i];
+      if (Object.keys(ev)[0] === currentEv) {
+        const obj = {};
+        obj[`${data}`] = "";
+        dataStorage.DS[0].d[1].FS[2].f[1].ES[i] = obj;
+      }
     }
+    setShowDialogForEv(false);
+    setData("");
   };
 
   useEffect(() => {
@@ -45,9 +46,14 @@ export default function FormDialog({
             variant="standard"
             value={data}
             onChange={(e) => setData(e.target.value)}
-            onKeyDown={UpdateRuntimeParameter}
+            // onKeyDown={() => UpdateEnvironmentVariable}
           />
         </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={() => UpdateEnvironmentVariable()}>
+            confirm change
+          </Button>
+        </DialogActions>
       </Dialog>
     </div>
   );

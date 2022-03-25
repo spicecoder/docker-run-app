@@ -7,12 +7,12 @@ const ContextItemRow = ({
 }) => {
   return (
     <div className="list">
-      <div className="list-item">{data.context_entity}</div>
+      <div className="list-item">{Object.keys(data)[0]}</div>
       <div>
         <button
           onClick={() => {
             setShowDialogFor(true);
-            setCurrentData(data.context_entity);
+            setCurrentData(Object.keys(data)[0]);
           }}
         >
           C
@@ -20,7 +20,7 @@ const ContextItemRow = ({
         <button
           onClick={() => {
             setRemoveDialogForData(true);
-            setCurrentData(data.context_entity);
+            setCurrentData(Object.keys(data)[0]);
           }}
         >
           D

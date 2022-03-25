@@ -7,24 +7,24 @@ import {
   TextField,
   DialogActions,
 } from "@mui/material";
-import axios from "axios";
 
 export default function FormDialog({
   removeDialogForEv,
   setRemoveDialogForEv,
   currentEv,
-  setUpdate,
-  update,
+  dataStorage,
 }) {
   const handleClose = () => {
     setRemoveDialogForEv(false);
   };
 
   const deleteEntity = async () => {
-    await axios.delete("http://localhost:9001/screen2/environment_variable", {
-      data: { entity: currentEv },
-    });
-    setUpdate(!update);
+    for (let i in dataStorage.DS[0].d[1].FS[2].f[1].ES) {
+      var ev = dataStorage.DS[0].d[1].FS[2].f[1].ES[i];
+      if (Object.keys(ev)[0] === currentEv) {
+        delete dataStorage.DS[0].d[1].FS[2].f[1].ES[i];
+      }
+    }
     setRemoveDialogForEv(false);
   };
 

@@ -1,1 +1,0 @@
-[{"context_entity":"Tiger2","value":"jungle king"},{"context_entity":"Boar","value":""},{"context_entity":"Monkey","value":"lorem ipsum"}]

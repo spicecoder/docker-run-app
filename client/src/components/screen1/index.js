@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import axios from "axios";
 
-const Screen1 = () => {
+const Screen1 = ({ check }) => {
   const [data, setData] = useState("");
   const [result, setResult] = useState("");
   const exexcuteFile = async () => {

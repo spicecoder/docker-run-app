@@ -7,14 +7,12 @@ import {
   TextField,
   DialogActions,
 } from "@mui/material";
-import axios from "axios";
 
 export default function FormDialog({
   showValueDialog,
   setShowValueDialogForEv,
-  setUpdate,
-  update,
   currentEv,
+  dataStorage,
 }) {
   const [data, setData] = useState("");
   const handleClose = () => {
@@ -22,21 +20,25 @@ export default function FormDialog({
   };
 
   useEffect(() => {
-    setData(currentEv.value);
+    if (Object.values(currentEv)[0]) {
+      setData(Object.values(currentEv)[0]);
+    } else {
+      setData("");
+    }
   }, [currentEv]);
 
   const addValue = async (e) => {
-    if (e.key === "Enter") {
-      await axios.put(
-        "http://localhost:9001/screen2/environment_variable/value",
-        {
-          key: currentEv.context_entity,
-          value: data,
-        }
-      );
-      setUpdate(!update);
-      setShowValueDialogForEv(false);
+    for (let i in dataStorage.DS[0].d[1].FS[2].f[1].ES) {
+      var ev = dataStorage.DS[0].d[1].FS[2].f[1].ES[i];
+
+      if (Object.keys(ev)[0] === Object.keys(currentEv)[0]) {
+        const obj = {};
+        obj[`${Object.keys(ev)[0]}`] = data;
+        dataStorage.DS[0].d[1].FS[2].f[1].ES[i] = obj;
+      }
     }
+    setShowValueDialogForEv(false);
+    setData("");
   };
 
   return (
@@ -47,11 +49,10 @@ export default function FormDialog({
           <TextField
             autoFocus
             margin="dense"
-            label="environment variable"
             type="text"
             fullWidth
             variant="standard"
-            value={currentEv.context_entity}
+            value={Object.keys(currentEv)[0]}
             disabled
           />
           <TextField
@@ -63,9 +64,13 @@ export default function FormDialog({
             variant="standard"
             value={data}
             onChange={(e) => setData(e.target.value)}
-            onKeyDown={addValue}
           />
         </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={() => addValue()}>
+            confirm change
+          </Button>
+        </DialogActions>
       </Dialog>
     </div>
   );

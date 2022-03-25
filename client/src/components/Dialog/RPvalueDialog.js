@@ -1,13 +1,18 @@
 import { useState, useEffect } from "react";
-import { DialogTitle, DialogContent, Dialog, TextField } from "@mui/material";
-import axios from "axios";
+import {
+  DialogTitle,
+  DialogContent,
+  Dialog,
+  TextField,
+  DialogActions,
+  Button,
+} from "@mui/material";
 
 export default function FormDialog({
   showValueDialog,
   setShowValueDialogForRp,
-  setUpdate,
-  update,
   currentRp,
+  dataStorage,
 }) {
   const [data, setData] = useState("");
   const handleClose = () => {
@@ -15,18 +20,25 @@ export default function FormDialog({
   };
 
   useEffect(() => {
-    setData(currentRp.value);
+    if (Object.values(currentRp)[0]) {
+      setData(Object.values(currentRp)[0]);
+    } else {
+      setData("");
+    }
   }, [currentRp]);
 
   const addValue = async (e) => {
-    if (e.key === "Enter") {
-      await axios.put("http://localhost:9001/screen2/runtime_parameter/value", {
-        key: currentRp.context_entity,
-        value: data,
-      });
-      setUpdate(!update);
-      setShowValueDialogForRp(false);
+    for (let i in dataStorage.DS[0].d[1].FS[1].f[1].ES) {
+      var rp = dataStorage.DS[0].d[1].FS[1].f[1].ES[i];
+
+      if (Object.keys(rp)[0] === Object.keys(currentRp)[0]) {
+        const obj = {};
+        obj[`${Object.keys(rp)[0]}`] = data;
+        dataStorage.DS[0].d[1].FS[1].f[1].ES[i] = obj;
+      }
     }
+
+    setShowValueDialogForRp(false);
   };
 
   return (
@@ -41,7 +53,7 @@ export default function FormDialog({
             type="text"
             fullWidth
             variant="standard"
-            value={currentRp.context_entity}
+            value={Object.keys(currentRp)[0]}
             disabled
           />
           <TextField
@@ -53,9 +65,14 @@ export default function FormDialog({
             variant="standard"
             value={data}
             onChange={(e) => setData(e.target.value)}
-            onKeyDown={addValue}
+            // onKeyDown={addValue}
           />
         </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={() => addValue()}>
+            confirm change
+          </Button>
+        </DialogActions>
       </Dialog>
     </div>
   );

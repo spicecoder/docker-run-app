@@ -1,31 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import RuntimeFormDialog from "../Dialog/RuntimeFormDialog";
 import RPConfirmDialog from "../Dialog/RPConfirmDialog";
 import RPvalueDialog from "../Dialog/RPvalueDialog";
 import AddRuntimeParameter from "../Dialog/AddRuntimeParameter";
-import axios from "axios";
 import ContextItemRow from "../reusable-components/ContextItemRow";
 
-const RuntimeParameter = ({ setRp }) => {
-  const [runtimeParameters, setRuntimeParameters] = useState([]);
-  const [update, setUpdate] = useState(false);
+const RuntimeParameter = ({ dataStorage }) => {
   const [showAddDialogForRp, setShowAddDialogForRp] = useState(false);
   const [showDialogForRp, setShowDialogForRp] = useState(false);
   const [currentRp, setCurrentRp] = useState("");
   const [removeDialogForRp, setRemoveDialogForRp] = useState(false);
   const [showValueDialogRp, setShowValueDialogForRp] = useState(false);
-
-  useEffect(() => {
-    (async () => {
-      const data = await axios.get(
-        "http://localhost:9001/screen2/runtime_parameter"
-      );
-      setRuntimeParameters(data.data);
-      setRp(data.data);
-    })();
-  }, [update]);
 
   return (
     <div className="screen-main-div">
@@ -34,31 +21,26 @@ const RuntimeParameter = ({ setRp }) => {
         setShowDialogForRp={setShowDialogForRp}
         currentRp={currentRp}
         setCurrentRp={setCurrentRp}
-        setUpdate={setUpdate}
-        update={update}
+        dataStorage={dataStorage}
       />
 
       <RPConfirmDialog
         removeDialogForRp={removeDialogForRp}
         setRemoveDialogForRp={setRemoveDialogForRp}
         currentRp={currentRp}
-        setUpdate={setUpdate}
-        update={update}
       />
 
       <RPvalueDialog
         showValueDialog={showValueDialogRp}
         setShowValueDialogForRp={setShowValueDialogForRp}
         currentRp={currentRp}
-        setUpdate={setUpdate}
-        update={update}
+        dataStorage={dataStorage}
       />
 
       <AddRuntimeParameter
-        setUpdate={setUpdate}
-        update={update}
         showAddDialogForRp={showAddDialogForRp}
         setShowAddDialogForRp={setShowAddDialogForRp}
+        dataStorage={dataStorage}
       />
 
       <div className="list-container">
@@ -73,7 +55,7 @@ const RuntimeParameter = ({ setRp }) => {
           </IconButton>
         </div>
 
-        {runtimeParameters.map((rp, i) => (
+        {dataStorage.DS[0].d[1].FS[1].f[1].ES.map((rp, i) => (
           <div key={i}>
             <ContextItemRow
               data={rp}

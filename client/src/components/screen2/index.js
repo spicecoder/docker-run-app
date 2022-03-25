@@ -4,9 +4,7 @@ import axios from "axios";
 import RuntimeParameter from "./RuntimeParameter";
 import EnvironmentVariable from "./EnvironmentVariable";
 
-const Screen2 = () => {
-  const [rp, setRp] = useState([]);
-  const [ev, setEv] = useState([]);
+const Screen2 = ({ dataStorage }) => {
   const [files, setFiles] = useState([]);
   const [result, setResult] = useState("");
 
@@ -19,16 +17,7 @@ const Screen2 = () => {
   }
 
   const handleSubmit = async () => {
-    const obj = {
-      domain: "Docker_image",
-      flow1: "Runtime parameters",
-      flow2: "Environment Variables",
-      atn1: rp,
-      atn2: ev,
-      files: files,
-    };
-
-    const res = await axios.post("http://localhost:9001/context", obj);
+    const res = await axios.post("http://localhost:9001/context", dataStorage);
     setResult(res.data);
   };
   const handleRemoveItem = (name) => {
@@ -47,9 +36,9 @@ const Screen2 = () => {
           disabled
         />
       </div>
-      <RuntimeParameter setRp={setRp} />
+      <RuntimeParameter dataStorage={dataStorage} />
 
-      <EnvironmentVariable setEv={setEv} />
+      <EnvironmentVariable dataStorage={dataStorage} />
 
       <div>
         <input type="file" multiple onChange={handleChange} />
